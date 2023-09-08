@@ -1,0 +1,516 @@
+<!DOCTYPE html><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>国家基因库核酸序列归档系统（CNSA）FTP公开服务 - CNGB Sequence Archive (CNSA) FTP public service</title>
+<meta name="description" content="国家基因库核酸序列归档系统（CNSA）FTP公开服务。CNGB Sequence Archive(CNSA) FTP public service.">
+<meta name="keywords" content="cnsa,CNGB Sequence Archive,FTP public service,国家基因库核酸序列归档系统,FTP公开服务">
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="format-detection" content="telephone=no">
+<meta name="msapplication-tap-highlight" content="no">
+<meta name="viewport" content="user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,width=device-width">
+<meta name="renderer" content="webkit">
+<meta name="force-rendering" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link rel="icon" type="image/ico" href="/favicon.ico">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/@fortawesome/fontawesome-free@5.15.4/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/typeface-open-sans@1.1.13/index.css">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/quasar@1.15.10/dist/quasar.min.css">
+<link rel="stylesheet" type="text/css" href="https://unpkg.com/quasar@1.15.10/dist/quasar.addon.min.css">
+<script type="text/javascript" src="https://ftp.cngb.org/elastic-apm-rum.umd.min.js"></script><style type="text/css">
+          /* 通用样式 */
+          :root {
+            --q-color-primary: #0c8c42;
+          }
+          body {
+            font-size: 14px;
+            background-color: #f4f4f4;
+            font-family: 'Open Sans', Roboto, -apple-system, Helvetica Neue, Helvetica, Arial, sans-serif;
+          }
+          a {
+            text-decoration: none;
+          }
+          .en,
+          .zh-hans {
+            display: none;
+          }
+          .sticky-header-table thead {
+            position: sticky;
+            z-index: 1;
+            top: 0;
+          }
+          .sticky-header-table thead th {
+            font-size: inherit;
+          }
+          .sticky-header-table thead tr,
+          .sticky-header-table tbody td {
+            padding: 8px 16px;
+            font-size: inherit;
+            line-height: 24px;
+            height: 40px;
+          }
+          /* 普通模式 */
+          .normal #q-app {
+            padding: 16px;
+            max-width: 1320px;
+            margin-left: auto;
+            margin-right: auto;
+          }
+          .normal.desktop.ie .q-table__middle {
+            max-height: calc(100vh - 146px);
+          }
+          .normal .sticky-header-table {
+            max-height: calc(100vh - 32px);
+          }
+          .normal .sticky-header-table .q-table__top,
+          .normal .sticky-header-table thead {
+            background-color: white;
+          }
+          /* 嵌套模式 */
+          .iframe .sticky-header-table {
+            height: 100vh;
+            width: 100vw;
+          }
+          .iframe .sticky-header-table .q-table__top {
+            display: none;
+          }
+          .iframe .sticky-header-table thead {
+            background-color: #f8f8f8;
+          }
+          .iframe .sticky-header-table tbody tr:last-child td {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+          }
+        </style>
+</head>
+<body><div id="q-app"><div class="q-table__container column no-wrap q-table__card q-table--no-wrap sticky-header-table">
+<div class="q-table__top relative-position row items-center"><div class="col-12">
+<div class="row q-col-gutter-sm items-end q-mb-lg">
+<div class="col-auto"><img src="https://ftp.cngb.org/cnsa.logo.svg" style="height: 40px; width: 150px;"></div>
+<div class="col text-h6" style="color: #595757;">
+<span class="en">FTP public service</span><span class="zh-hans">FTP公开服务</span>
+</div>
+</div>
+<div class="row q-col-gutter-sm items-center">
+<div class="col-auto">
+<span class="en">Current folder:</span><span class="zh-hans">当前文件夹：</span>
+</div>
+<div class="col"><div class="q-breadcrumbs"><div id="BreadcrumbsContainer" class="flex items-center justify-start q-gutter-sm"><div class="flex items-center text-primary"><a class="q-breadcrumbs__el q-link flex inline items-center relative-position" href="/" rel="nofollow"><i class="fas fa-home"></i></a></div></div></div></div>
+</div>
+</div></div>
+<div class="q-table__middle scroll"><table class="q-table">
+<thead><tr>
+<th class="text-left">
+<span class="en">Name</span><span class="zh-hans">名称</span>
+</th>
+<th class="text-right">
+<span class="en">Size</span><span class="zh-hans">大小</span>
+</th>
+<th class="text-left">
+<span class="en">Last modified</span><span class="zh-hans">更新时间</span>
+</th>
+</tr></thead>
+<script type="text/javascript">
+                  /*
+                   * 本script放置在此处是因为：
+                   * 1. 执行javascript所需要的DOM已全部加载了。
+                   * 2. 当FTP列表过长时，script后面的tbody内容将会加载很久，script没有必要等待tbody完全加载完才执行。
+                   */
+                  const bodyDom = document.getElementsByTagName('body')[0];
+                  const tableContainer = document.getElementsByClassName('q-table__container')[0];
+                  if (window.self !== window.parent) {
+                    // 嵌套模式，即嵌套在iframe中。
+                    bodyDom.className += ' iframe';
+                    // 更新表格样式。
+                    tableContainer.className += ' q-table--cell-separator q-table--square q-table--flat q-table--bordered';
+                  } else {
+                    // 普通模式。
+                    // 组装并渲染面包屑数据。
+                    bodyDom.className += ' normal'
+                    const route = location.pathname.split('/');
+                    let correctRoute = [];
+                    route.forEach(function (i) { if (i) correctRoute.push(i); });
+                    let breadcrumbs = [];
+                    let count = 0;
+                    correctRoute.forEach(function (i) {
+                      count++;
+                      let separatorDom = document.createElement('div');
+                      separatorDom.className += ' q-breadcrumbs__separator';
+                      separatorDom.innerHTML = '/';
+                      breadcrumbs.push(separatorDom);
+                      let divDom = document.createElement('div');
+                      let aDom
+                      if (count === correctRoute.length) {
+                        divDom.className += ' flex items-center';
+                        aDom = document.createElement('span');
+                      } else {
+                        divDom.className += ' flex items-center text-primary';
+                        aDom = document.createElement('a');
+                        aDom.setAttribute('href', '/' + correctRoute.slice(0, count).join('/'));
+                      };
+                      aDom.className += ' q-breadcrumbs__el q-link flex inline items-center relative-position';
+                      aDom.innerHTML = i;
+                      divDom.appendChild(aDom);
+                      breadcrumbs.push(divDom);
+                    });
+                    const BreadcrumbsContainer = document.getElementById('BreadcrumbsContainer');
+                    breadcrumbs.forEach(function (i) { BreadcrumbsContainer.appendChild(i); });
+                    // 更新表格样式。
+                    tableContainer.className += ' q-table--horizontal-separator';
+                  };
+                  // 移动端/桌面端检测并更新样式。
+                  const isMobile = navigator.userAgent.toLowerCase().indexOf('mobile') > -1;
+                  bodyDom.className += isMobile ? ' mobile touch body--light' : ' desktop no-touch body--light';
+                  // 检测IE。
+                  if (navigator.userAgent.indexOf('Trident') > -1) bodyDom.className += ' ie';
+                  // 获取语言。检测dc_lang cookie，否则检测浏览器UI语言。
+                  const langMatch = /dc_lang=(en|zh-hans)/.exec(document.cookie);
+                  let lang;
+                  if (langMatch && langMatch.length === 2) lang = langMatch[1];
+                  if (!lang) {
+                    lang = navigator.userAgent.indexOf('Trident') > -1
+                      ? navigator.userLanguage.split('-')[0] === 'zh'
+                        ? 'zh-hans'
+                        : 'en'
+                      : navigator.languages.reduce(function (langList, lang) {
+                          let langKey = lang.split('-')[0] === 'zh' ? 'zh-hans' : 'en';
+                          if (langList.indexOf(langKey) === -1) langList.push(langKey);
+                          return langList;
+                        }, [])[0]
+                  };
+                  // 显示对应语言的文本。
+                  const elements = document.getElementsByClassName(lang);
+                  for (let i = 0; i < elements.length; i++) elements[i].style.display = 'block';
+                  document.getElementsByTagName('title')[0].innerHTML = {
+                    en: 'CNGB Sequence Archive (CNSA) FTP public service',
+                    'zh-hans': '国家基因库核酸序列归档系统（CNSA）FTP公开服务',
+                  }[lang];
+                  // 更新主题色。
+                  const queryArray = decodeURIComponent(window.location.search)
+                    .replace(/^\?/, '')
+                    .split('&')
+                    .map(function (x) { return x.split('='); });
+                  const query = queryArray.reduce(function (all, item) { all[item[0]] = item[1]; return all; }, {});
+                  if (query.primary) document.documentElement.style.setProperty('--q-color-primary', query.primary);
+                  // elastic apm 相关功能。
+                  elasticApm.init({
+                    environment: 'prod',
+                    serviceName: 'prod_ftp',
+                    serverUrl: 'https://db.cngb.org/apm/',
+                  });
+                </script><tbody>
+<tr>
+<td class="text-left"><a class="text-primary" href="s01.mat" rel="nofollow">s01.mat</a></td>
+<td class="text-right">194.02MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:49</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s02.mat" rel="nofollow">s02.mat</a></td>
+<td class="text-right">195.84MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:59</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s03.mat" rel="nofollow">s03.mat</a></td>
+<td class="text-right">196.98MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:45</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s04.mat" rel="nofollow">s04.mat</a></td>
+<td class="text-right">191.17MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:40</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s05.mat" rel="nofollow">s05.mat</a></td>
+<td class="text-right">194.75MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:45</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s06.mat" rel="nofollow">s06.mat</a></td>
+<td class="text-right">192.39MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:43</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s07.mat" rel="nofollow">s07.mat</a></td>
+<td class="text-right">222.73MB
+                            </td>
+<td class="text-left">2018-05-12 04:35:02</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s08.mat" rel="nofollow">s08.mat</a></td>
+<td class="text-right">193.23MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:48</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s09.mat" rel="nofollow">s09.mat</a></td>
+<td class="text-right">223.80MB
+                            </td>
+<td class="text-left">2018-05-12 04:35:01</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s10.mat" rel="nofollow">s10.mat</a></td>
+<td class="text-right">193.29MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:46</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s11.mat" rel="nofollow">s11.mat</a></td>
+<td class="text-right">194.22MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:46</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s12.mat" rel="nofollow">s12.mat</a></td>
+<td class="text-right">198.90MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:52</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s13.mat" rel="nofollow">s13.mat</a></td>
+<td class="text-right">190.10MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:45</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s14.mat" rel="nofollow">s14.mat</a></td>
+<td class="text-right">194.14MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:49</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s15.mat" rel="nofollow">s15.mat</a></td>
+<td class="text-right">193.87MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:53</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s16.mat" rel="nofollow">s16.mat</a></td>
+<td class="text-right">194.79MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:48</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s17.mat" rel="nofollow">s17.mat</a></td>
+<td class="text-right">195.65MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:43</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s18.mat" rel="nofollow">s18.mat</a></td>
+<td class="text-right">192.56MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:48</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s19.mat" rel="nofollow">s19.mat</a></td>
+<td class="text-right">197.66MB
+                            </td>
+<td class="text-left">2018-05-12 04:35:00</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s20.mat" rel="nofollow">s20.mat</a></td>
+<td class="text-right">192.68MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:42</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s21.mat" rel="nofollow">s21.mat</a></td>
+<td class="text-right">193.31MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:52</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s22.mat" rel="nofollow">s22.mat</a></td>
+<td class="text-right">194.15MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:50</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s23.mat" rel="nofollow">s23.mat</a></td>
+<td class="text-right">195.75MB
+                            </td>
+<td class="text-left">2018-05-12 04:35:01</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s24.mat" rel="nofollow">s24.mat</a></td>
+<td class="text-right">193.51MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:47</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s25.mat" rel="nofollow">s25.mat</a></td>
+<td class="text-right">195.56MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:55</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s26.mat" rel="nofollow">s26.mat</a></td>
+<td class="text-right">193.61MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:42</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s27.mat" rel="nofollow">s27.mat</a></td>
+<td class="text-right">195.30MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:55</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s28.mat" rel="nofollow">s28.mat</a></td>
+<td class="text-right">196.03MB
+                            </td>
+<td class="text-left">2018-05-12 04:35:02</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s29.mat" rel="nofollow">s29.mat</a></td>
+<td class="text-right">193.53MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:41</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s30.mat" rel="nofollow">s30.mat</a></td>
+<td class="text-right">194.67MB
+                            </td>
+<td class="text-left">2018-05-12 04:35:02</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s31.mat" rel="nofollow">s31.mat</a></td>
+<td class="text-right">197.72MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:54</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s32.mat" rel="nofollow">s32.mat</a></td>
+<td class="text-right">196.68MB
+                            </td>
+<td class="text-left">2018-06-01 15:35:53</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s33.mat" rel="nofollow">s33.mat</a></td>
+<td class="text-right">196.17MB
+                            </td>
+<td class="text-left">2018-05-12 04:35:03</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s34.mat" rel="nofollow">s34.mat</a></td>
+<td class="text-right">193.83MB
+                            </td>
+<td class="text-left">2018-05-12 04:35:04</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s35.mat" rel="nofollow">s35.mat</a></td>
+<td class="text-right">192.05MB
+                            </td>
+<td class="text-left">2018-05-12 04:35:04</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s36.mat" rel="nofollow">s36.mat</a></td>
+<td class="text-right">192.87MB
+                            </td>
+<td class="text-left">2018-05-12 04:35:05</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s37.mat" rel="nofollow">s37.mat</a></td>
+<td class="text-right">196.02MB
+                            </td>
+<td class="text-left">2018-05-12 04:35:04</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s38.mat" rel="nofollow">s38.mat</a></td>
+<td class="text-right">195.42MB
+                            </td>
+<td class="text-left">2018-05-12 04:35:05</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s39.mat" rel="nofollow">s39.mat</a></td>
+<td class="text-right">197.28MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:47</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s40.mat" rel="nofollow">s40.mat</a></td>
+<td class="text-right">190.87MB
+                            </td>
+<td class="text-left">2018-05-12 04:35:06</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s41.mat" rel="nofollow">s41.mat</a></td>
+<td class="text-right">193.77MB
+                            </td>
+<td class="text-left">2018-05-12 04:35:06</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s42.mat" rel="nofollow">s42.mat</a></td>
+<td class="text-right">192.29MB
+                            </td>
+<td class="text-left">2018-05-12 04:35:06</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s43.mat" rel="nofollow">s43.mat</a></td>
+<td class="text-right">195.80MB
+                            </td>
+<td class="text-left">2018-05-12 04:34:36</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s44.mat" rel="nofollow">s44.mat</a></td>
+<td class="text-right">199.11MB
+                            </td>
+<td class="text-left">2018-05-12 04:35:07</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s45.mat" rel="nofollow">s45.mat</a></td>
+<td class="text-right">198.49MB
+                            </td>
+<td class="text-left">2018-05-12 04:35:06</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s46.mat" rel="nofollow">s46.mat</a></td>
+<td class="text-right">226.16MB
+                            </td>
+<td class="text-left">2018-06-01 15:35:55</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s47.mat" rel="nofollow">s47.mat</a></td>
+<td class="text-right">192.35MB
+                            </td>
+<td class="text-left">2018-05-12 04:35:09</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s48.mat" rel="nofollow">s48.mat</a></td>
+<td class="text-right">196.24MB
+                            </td>
+<td class="text-left">2018-05-12 04:35:09</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s49.mat" rel="nofollow">s49.mat</a></td>
+<td class="text-right">193.86MB
+                            </td>
+<td class="text-left">2018-06-01 15:35:57</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s50.mat" rel="nofollow">s50.mat</a></td>
+<td class="text-right">195.72MB
+                            </td>
+<td class="text-left">2018-05-12 04:35:10</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s51.mat" rel="nofollow">s51.mat</a></td>
+<td class="text-right">190.31MB
+                            </td>
+<td class="text-left">2018-05-12 04:35:09</td>
+</tr>
+<tr>
+<td class="text-left"><a class="text-primary" href="s52.mat" rel="nofollow">s52.mat</a></td>
+<td class="text-right">196.97MB
+                            </td>
+<td class="text-left">2018-05-12 04:35:11</td>
+</tr>
+</tbody>
+</table></div>
+</div></div></body>
+</html>
