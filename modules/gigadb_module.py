@@ -1,6 +1,3 @@
-import os
-import requests
-from bs4 import BeautifulSoup
 from extract.downloader import  download_all_files,prepare_download,handle_pagination
 
 def download_from_gigadb(base_url, destination_folder):
