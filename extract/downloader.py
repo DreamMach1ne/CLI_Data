@@ -2,7 +2,7 @@
 import os
 import requests
 from concurrent.futures import ThreadPoolExecutor
-from gcs_module import upload_to_gcs  # Import the GCS module
+from gcp import upload_to_gcs  # Import the GCS module
 
 def prepare_download(destination_folder, specific_folder):
     """Prepares the download directory and returns the full path and a set of already downloaded files.
