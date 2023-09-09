@@ -1,6 +1,5 @@
 import json
-from extract.downloader import prepare_download, handle_pagination
-from extract.downloader import download_all_files
+from extract.downloader import prepare_download, download_all_files
 import requests
 
 def fetch_figshare_articles(api_url, page):
@@ -29,22 +28,19 @@ def fetch_figshare_file_links(article):
 
     return [f"https://api.figshare.com/v2/articles/{article_id}/files/{file['id']}/download" for file in files]
 
-def download_from_figshare(api_url, destination_folder):
+def download_from_figshare(api_url, destination_folder, gcs_bucket=None):
     full_path, downloaded_files = prepare_download(destination_folder, "Figshare_Downloads")
 
+    all_download_links = []
     page = 1
     while True:
         articles = fetch_figshare_articles(api_url, page)
         if articles is None or not articles:
             break
 
-        download_links = []
         for article in articles:
-            download_links.extend(fetch_figshare_file_links(article))
-
-        if not download_all_files(download_links, full_path, downloaded_files):
-            return False
+            all_download_links.extend(fetch_figshare_file_links(article))
 
         page += 1
 
-    return True
+    return download_all_files(all_download_links, full_path, downloaded_files, gcs_bucket)

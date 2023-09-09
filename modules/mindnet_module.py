@@ -1,11 +1,10 @@
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
 import requests
-from extract.downloader import  download_all_files,prepare_download
+from extract.downloader import download_all_files, prepare_download
 
-def download_from_mindnet(destination_folder):
+def download_from_mindnet(destination_folder, gcs_bucket=None):
     full_path, downloaded_files = prepare_download(destination_folder, "MindNet_Downloads")
-
 
     urls = [
         "http://mindbigdata.com/opendb/index.html",
@@ -24,7 +23,7 @@ def download_from_mindnet(destination_folder):
 
         download_links = [urljoin(url, link.get('href')) for link in soup.find_all('a') if link.get('href', '').endswith('.zip')]
 
-        if not download_all_files(download_links, full_path, downloaded_files):
+        if not download_all_files(download_links, full_path, downloaded_files, gcs_bucket):
             return False
 
     return True
