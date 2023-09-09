@@ -2,7 +2,7 @@
 import os
 import requests
 from concurrent.futures import ThreadPoolExecutor
-from gcp import upload_to_gcs  # Import the GCS module
+from extract.gcp import upload_blob  # Import the GCS module
 
 def prepare_download(destination_folder, specific_folder):
     """Prepares the download directory and returns the full path and a set of already downloaded files.
@@ -72,7 +72,7 @@ def download_and_upload_file(file_url, destination_folder, downloaded_files, gcs
 
         # Upload to GCS if bucket name is provided
         if gcs_bucket:
-            upload_success = upload_to_gcs(gcs_bucket, local_file_path, file_name)
+            upload_success = upload_blob(gcs_bucket, local_file_path, file_name)
             if upload_success:
                 print(f"[SUCCESS] Uploaded {file_name} to GCS bucket {gcs_bucket}")
 
