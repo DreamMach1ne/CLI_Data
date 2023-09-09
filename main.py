@@ -9,7 +9,7 @@ from extract.downloader import create_folder_if_not_exists
 
 def main():
     parser = argparse.ArgumentParser(description='Download datasets.')
-    parser.add_argument('--source', choices=['gigadb', 'mindbigdata', 'bnci', 'figshare', 'direct', 'kaggle'], default='bnci', help='Source to download from')
+    parser.add_argument('--source', choices=['gigadb', 'mindbigdata', 'bnci', 'figshare', 'direct', 'kaggle'], default='all', help='Source to download from')
     args = parser.parse_args()
 
     destination_folder = "Downloaded_Datasets"
