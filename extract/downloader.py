@@ -4,6 +4,13 @@ import requests
 from concurrent.futures import ThreadPoolExecutor
 from extract.gcp import upload_blob  # Import the GCS module
 
+
+#bnci_scraper.py
+from urllib.parse import urljoin
+import requests
+from bs4 import BeautifulSoup
+
+
 def prepare_download(destination_folder, specific_folder):
     """Prepares the download directory and returns the full path and a set of already downloaded files.
 
@@ -89,3 +96,16 @@ def download_all_files(download_links, destination_folder, downloaded_files, gcs
             print("[ERROR] Operation was manually interrupted.")
             return False
     return True
+
+
+def fetch_bnci_links(base_url):
+    try:
+        response = requests.get(base_url)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, 'html.parser')
+    except requests.RequestException as e:
+        print(f"[ERROR] Failed to fetch {base_url}. Error: {e}")
+        return []
+
+    return [urljoin(base_url, link.get('href')) for link in soup.find_all('a') if link.get('href', '').endswith('.mat')]
+
