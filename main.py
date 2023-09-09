@@ -40,6 +40,13 @@ def main():
         'https://bcmi.sjtu.edu.cn/~seed/downloads.html#seed-iv-access-anchor',
         'https://bcmi.sjtu.edu.cn/~seed/downloads.html#seed-vig-access-anchor',
         'https://stacks.stanford.edu/file/druid:xd109qh3109/fhpred.zip',
+        "https://utexas.box.com/shared/static/7ab8qm5e3i0vfsku0ee4dc6hzgeg7nyh.zip",
+        'https://utexas.box.com/shared/static/3go1g4gcdar2cntjit2knz5jwr3mvxwe.zip',
+        "https://openneuro.org/datasets/ds003020/",
+        "https://utexas.box.com/shared/static/ae5u0t3sh4f46nvmrd3skniq0kk2t5uh.zip",
+        "https://openneuro.org/datasets/ds004510/",
+        "https://utexas.box.com/s/ri13t06iwpkyk17h8tfk0dtyva7qtqlz",
+        "https://utexas.box.com/s/ri13t06iwpkyk17h8tfk0dtyva7qtqlz"
         ]
         success = download_direct_links(direct_links, destination_folder)
     elif args.source == 'kaggle':
