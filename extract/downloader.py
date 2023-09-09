@@ -5,16 +5,41 @@ from concurrent.futures import ThreadPoolExecutor
 from gcs_module import upload_to_gcs  # Import the GCS module
 
 def prepare_download(destination_folder, specific_folder):
+    """Prepares the download directory and returns the full path and a set of already downloaded files.
+
+    Args:
+        destination_folder (str): The root folder where files will be downloaded.
+        specific_folder (str): The specific folder within the destination folder.
+
+    Returns:
+        tuple: Full path to the specific folder and a set of already downloaded files.
+    """
     full_path = os.path.join(destination_folder, specific_folder)
     downloaded_files = set()
     create_folder_if_not_exists(full_path)
     return full_path, downloaded_files
 
 def create_folder_if_not_exists(folder_name):
+    """Creates a folder if it doesn't exist.
+
+    Args:
+        folder_name (str): The name of the folder to create.
+    """
     if not os.path.exists(folder_name):
         os.makedirs(folder_name)
 
 def download_and_upload_file(file_url, destination_folder, downloaded_files, gcs_bucket=None):
+    """Downloads a file and optionally uploads it to a GCS bucket.
+
+    Args:
+        file_url (str): The URL of the file to download.
+        destination_folder (str): The folder to download the file to.
+        downloaded_files (set): A set of already downloaded files.
+        gcs_bucket (str, optional): The GCS bucket to upload the file to.
+
+    Returns:
+        bool: True if download is successful, False otherwise.
+    """
     if not file_url.startswith('http'):
         print(f"[ERROR] Invalid URL {file_url}. Skipping.")
         return
